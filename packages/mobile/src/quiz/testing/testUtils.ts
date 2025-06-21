@@ -1,12 +1,5 @@
+import { Question, QuestionBase, QuestionStatus, Quiz, QuizConfig, QuizState } from "@quiz-app/shared";
 import { createQuizConfig } from "../domain/quiz/factories";
-import {
-	type Question,
-	type QuestionBase,
-	QuestionStatus,
-	type Quiz,
-	type QuizConfig,
-	type QuizState,
-} from "../types";
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
@@ -137,6 +130,7 @@ export const quizCollectionBuilder = () => {
 				unlockCondition: {
 					requiredQuizId,
 					description: `Complete ${requiredQuizId} to unlock`,
+					type: "playthrough",
 				},
 			});
 			quizzes.push(testQuiz);
