@@ -1,9 +1,9 @@
 import { useUI } from "@/quiz/store";
 import { useHints } from "@/quiz/store/hooks/useHints";
 import { useQuiz } from "@/quiz/store/hooks/useQuiz";
-import type { Question } from "@/quiz/types";
 import { useCallback } from "react";
 import type { WrongAnswerHint } from "../Question.types";
+import { Question } from "@quiz-app/shared";
 
 interface UseQuestionBusinessLogicProps {
 	quizId: string;

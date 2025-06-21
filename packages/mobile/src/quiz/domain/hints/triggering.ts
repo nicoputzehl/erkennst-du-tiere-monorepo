@@ -1,12 +1,4 @@
-// src/quiz/domain/hints/triggering.ts - DEBUG VERSION
-
-import type { QuestionBase } from "../../types";
-import type {
-	AutoFreeHint,
-	ContextualHint,
-	HintState,
-	HintTriggerResult,
-} from "../../types/hint";
+import { QuestionBase, HintState, ContextualHint, AutoFreeHint, HintTriggerResult } from "@quiz-app/shared";
 import { normalizeString } from "../quiz/utils/stringManipulation";
 import { isAutoFreeHint, isContextualHint } from "./validation";
 

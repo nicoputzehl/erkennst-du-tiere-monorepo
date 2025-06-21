@@ -1,4 +1,5 @@
-import type { QuestionBase } from "@/quiz/types/question";
+
+import { QuestionBase } from "@quiz-app/shared";
 import { HintUtils } from "..";
 import {
 	createContextualHint,

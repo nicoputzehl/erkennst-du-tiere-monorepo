@@ -3,9 +3,8 @@ import { HintUtils } from "../../domain/hints";
 import { QuizUtils } from "../../domain/quiz";
 import { createQuizState } from "../../domain/quiz/factories";
 import { isCompleted } from "../../domain/quiz/statistics";
-import type { Quiz, QuizState } from "../../types";
-import type { ContextualHint } from "../../types/hint";
 import type { QuizStore } from "../Store";
+import { QuizState, Quiz, ContextualHint } from "@quiz-app/shared";
 
 interface AnswerResult {
 	isCorrect: boolean;

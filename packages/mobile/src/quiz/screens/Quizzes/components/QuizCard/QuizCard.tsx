@@ -1,7 +1,7 @@
 import { useQuiz } from "@/quiz/store/hooks/useQuiz";
-import type { Quiz } from "@/quiz/types";
 import { useQuizzes } from "../../hooks/useQuizzes";
 import { QuizCardContent } from "./QuizCardContent";
+import { Quiz } from "@quiz-app/shared";
 
 export const QuizCard = ({ quiz }: { quiz: Quiz }) => {
 	const { isLoading, navigateToQuiz, getQuizProgress, getQuizProgressString } =

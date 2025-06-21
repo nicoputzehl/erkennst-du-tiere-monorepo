@@ -1,6 +1,5 @@
-import { QuestionStatus } from "@/quiz/types"; // Vereinfachte Types ohne Generics
+import { QuizImages, QuestionStatus } from "@quiz-app/shared";
 import { useMemo } from "react";
-import type { QuizImages } from "../types/image";
 
 export enum ImageType {
 	IMG = "img",

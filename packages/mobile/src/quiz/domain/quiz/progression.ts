@@ -1,4 +1,4 @@
-import { type Question, QuestionStatus, type QuizState } from "../../types";
+import { Question, QuestionStatus, QuizState } from "@quiz-app/shared";
 import { isAnswerCorrect } from "./answerComparison";
 
 export const findNextInactiveQuestionIndex = (

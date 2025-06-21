@@ -5,9 +5,10 @@ import { useThemeColor } from "@/common/hooks/useThemeColor";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import type { Quiz } from "../../types";
+
 import { QuizGrid } from "./components/QuizGrid";
 import { useQuizzesScreen } from "./hooks/useQuizzesScreen";
+import { Quiz } from "@quiz-app/shared";
 
 type QuizzesProps = {
 	quizzes: Quiz[];

@@ -1,6 +1,6 @@
 import { useLoading } from "@/quiz/store";
 import { useQuiz } from "@/quiz/store/hooks/useQuiz";
-import type { QuizState } from "@/quiz/types";
+import { QuizState } from "@quiz-app/shared";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 

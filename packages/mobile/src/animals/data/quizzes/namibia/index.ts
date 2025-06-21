@@ -1,4 +1,3 @@
-import type { QuestionBase } from "@/quiz";
 import {
 	createAutoFreeHint,
 	createContextualHint,
@@ -6,6 +5,7 @@ import {
 	createFirstLetterHint,
 	createLetterCountHint,
 } from "@/quiz/domain/hints/factories";
+import { QuestionBase } from "@quiz-app/shared";
 
 export const namibia: QuestionBase[] = [
 	{

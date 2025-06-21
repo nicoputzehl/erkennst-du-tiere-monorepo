@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
-import type { Quiz, QuizState } from "../../types";
 import { useQuizStore } from "../Store";
+import { Quiz, QuizState } from "@quiz-app/shared";
 
 export function useQuiz() {
 	const quizzesRecord = useQuizStore((state) => state.quizzes);

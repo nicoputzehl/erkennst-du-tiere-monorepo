@@ -1,9 +1,9 @@
 import { ThemedText } from "@/common/components/ThemedText";
 import { useThemeColor } from "@/common/hooks/useThemeColor";
 import { WikipediaLink } from "@/quiz/screens/Question/components/WikipediaLink";
-import type { Question } from "@/quiz/types";
 import { StyleSheet, View } from "react-native";
 import { DelayedLottie } from "./DelayedLottie";
+import { Question } from "@quiz-app/shared";
 
 export interface SolvedProps {
 	question: Question;

@@ -1,5 +1,4 @@
-import type { QuestionBase } from "../../types";
-import { type Hint, HintType } from "../../types/hint";
+import { HintType, QuestionBase, Hint } from "@quiz-app/shared";
 import {
 	isAutoFreeHint,
 	isContextualHint,

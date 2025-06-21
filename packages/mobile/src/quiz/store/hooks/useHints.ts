@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
-import { HintType, type PurchasableHint, type AutoFreeHint, type HintTriggerResult } from "../../types/hint";
 import { useQuizStore } from "../Store";
 import { isAutoFreeHint, isContextualHint } from "../../domain/hints/validation";
+import { HintType, PurchasableHint, AutoFreeHint, HintTriggerResult } from "@quiz-app/shared";
 
 export const useHints = (quizId: string, questionId: number) => {
 	const quizState = useQuizStore((state) => state.quizStates[quizId]);

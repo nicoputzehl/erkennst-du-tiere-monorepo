@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-// hooks/usePulsingAnimation.ts
 import {
 	useAnimatedStyle,
 	useSharedValue,

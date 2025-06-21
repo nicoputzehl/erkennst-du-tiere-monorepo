@@ -1,9 +1,8 @@
-import type { PlaythroughCondition, ProgressCondition } from "@/quiz/types/unlock";
+import { QuizState, QuizConfig, PlaythroughCondition, ProgressCondition, UnlockCondition } from "@quiz-app/shared";
 import {
 	createTestQuizConfig,
 	createTestQuizState,
 } from "../../../testing/testUtils";
-import type { QuizConfig, QuizState, UnlockCondition } from "../../../types";
 import { canUnlockQuiz, checkUnlockCondition, getUnlockProgress, isQuizUnlocked } from "../unlocking";
 
 describe("Quiz Unlocking Utilities", () => {

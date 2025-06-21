@@ -1,4 +1,4 @@
-import type { QuizConfig } from "@/quiz/types";
+import { QuizConfig } from "@quiz-app/shared";
 import { useQuizStore } from "../store/Store";
 
 /**

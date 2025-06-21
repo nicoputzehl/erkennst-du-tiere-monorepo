@@ -1,11 +1,4 @@
-import {
-	type AutoFreeHint,
-	type ContextualHint,
-	type DynamicHint,
-	HintType,
-	type StaticHint,
-} from "../../types/hint";
-import type { QuestionBase } from "../../types/question";
+import { DynamicHint, QuestionBase, HintType, StaticHint, ContextualHint, AutoFreeHint } from "@quiz-app/shared";
 
 console.log("🏭 [Factories] File loading...");
 

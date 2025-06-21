@@ -6,15 +6,16 @@ import {
 	subscribeWithSelector,
 } from "zustand/middleware";
 import { QuizUtils } from "../domain/quiz";
-import type { QuizState } from "../types";
+
 
 import { HintUtils } from "../domain/hints";
-import type { HintState, UserPointsState } from "../types/hint";
+
 import { type HintSlice, createHintSlice } from "./slices/Hint";
 import { type QuizDataSlice, createQuizDataSlice } from "./slices/Data";
 import { type QuizStateSlice, createQuizStateSlice } from "./slices/State";
 import { type UISlice, createUISlice } from "./slices/UI";
 import { type UnlockSlice, createUnlockSlice } from "./slices/Unlock";
+import { UserPointsState, QuizState, HintState } from "@quiz-app/shared";
 
 export interface QuizStore
 	extends QuizDataSlice,

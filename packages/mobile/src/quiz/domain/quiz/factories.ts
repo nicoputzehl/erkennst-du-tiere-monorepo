@@ -1,12 +1,5 @@
-import {
-	type Question,
-	QuestionStatus,
-	type Quiz,
-	type QuizConfig,
-	type QuizState,
-} from "../../types";
-import type { HintState } from "../../types/hint";
-import type { PlaythroughCondition, ProgressCondition } from "../../types/unlock";
+import { Quiz, QuizConfig, PlaythroughCondition, ProgressCondition, QuestionStatus, QuizState, HintState, Question } from "@quiz-app/shared";
+
 
 /**
  * Erstellt eine Quiz-Konfiguration aus Quiz-Inhalt und Konfigurationsoptionen

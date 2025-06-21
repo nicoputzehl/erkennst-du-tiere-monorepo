@@ -1,11 +1,11 @@
 import { useHints } from "@/quiz/store/hooks/useHints";
 import { useQuiz } from "@/quiz/store/hooks/useQuiz";
-import { QuestionStatus } from "@/quiz/types";
 import { useMemo, useState } from "react";
 import { useAnswerState } from "./useAnswerState";
 import { useQuestionBusinessLogic } from "./useQuestionBusinessLogic";
 import { useQuestionNavigation } from "./useQuestionNavigation";
 import { useResultState } from "./useQuestionResultState";
+import { QuestionStatus } from "@quiz-app/shared";
 
 export function useQuestionScreen(quizId: string, questionId: string) {
 	const { getQuizState } = useQuiz();

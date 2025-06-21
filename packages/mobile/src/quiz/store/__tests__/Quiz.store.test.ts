@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act } from "@testing-library/react-native";
-import { QuestionStatus } from "../../types";
 import { useQuizStore } from "../Store";
-import { QuizUtils } from "../../domain/quiz";
+import { QuestionStatus } from "@quiz-app/shared";
 
 // Mocken Sie createQuizState, da es eine externe Abhängigkeit ist
 jest.mock("../../domain/quiz", () => ({

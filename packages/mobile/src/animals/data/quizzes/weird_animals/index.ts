@@ -1,4 +1,4 @@
-import type { QuestionBase } from "@/quiz";
+import { QuestionBase } from "@quiz-app/shared";
 
 export const weirdAnimals: QuestionBase[] = [
 	{

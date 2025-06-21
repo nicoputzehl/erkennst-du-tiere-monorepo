@@ -1,8 +1,8 @@
 import { ThemedText } from "@/common/components/ThemedText";
 import { useThemeColor } from "@/common/hooks/useThemeColor";
-import type { UsedHint } from "@/quiz/types";
 import { View } from "react-native";
 import sharedHintstyles from "./Hints.styles";
+import { UsedHint } from "@quiz-app/shared";
 
 type HintsReceivedProps = {
 	hints: UsedHint[];

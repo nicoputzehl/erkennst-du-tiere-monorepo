@@ -1,5 +1,5 @@
-import type { QuestionBase } from "@/quiz";
 import { createAutoFreeHint, createContextualHint, createFirstLetterHint, createLetterCountHint } from "@/quiz/domain/hints/factories";
+import { QuestionBase } from "@quiz-app/shared";
 
 export const emojiAnimals: QuestionBase[] = [
 	{

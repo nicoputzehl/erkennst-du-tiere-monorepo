@@ -1,5 +1,4 @@
-import type { QuizConfig, QuizState, UnlockCondition } from "../../types";
-import { type PlaythroughCondition, type ProgressCondition, isQuizPlaythroughCondition, isQuizProgressCondition } from "../../types/unlock";
+import { UnlockCondition, QuizState, QuizConfig, isQuizPlaythroughCondition, isQuizProgressCondition, PlaythroughCondition, ProgressCondition } from "@quiz-app/shared";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
 
 export const checkUnlockCondition = (
@@ -45,7 +44,7 @@ const checkProgressCondition = (
 	const isMet = quizState.completedQuestions >= requiredQuestionsSolved;
 
 	const progress = isMet ? 100 : calculateCompletionPercentage(requiredQuestionsSolved, quizState.completedQuestions);
-	console.log("checkProgressCondition",{ isMet, progress });
+	console.log("checkProgressCondition", { isMet, progress });
 	return { isMet, progress };
 }
 

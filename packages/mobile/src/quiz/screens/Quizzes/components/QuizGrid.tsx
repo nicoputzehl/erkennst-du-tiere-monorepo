@@ -1,7 +1,7 @@
-import type { Quiz } from "@/quiz/types"; // Vereinfachte Types ohne Generics
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { QuizCard } from "./QuizCard/QuizCard";
+import { Quiz } from "@quiz-app/shared";
 
 type QuizGridProps = {
 	quizzes: Quiz[];

@@ -1,5 +1,5 @@
-import { type Question, QuestionStatus } from "@/quiz/types";
-import type { HintState, UserPointsState } from "@/quiz/types/hint";
+
+import { HintState, UserPointsState, Question, QuestionStatus } from "@quiz-app/shared";
 import { HintUtils } from "..";
 import {
 	createContextualHint,

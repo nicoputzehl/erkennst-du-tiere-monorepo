@@ -19,6 +19,7 @@ export const Lottie = () => {
 					width: "100%",
 					height: "100%",
 				}}
+				// TODO lokal ablegen
 				// Find more Lottie files at https://lottiefiles.com/featured
 				source={require("../../../../../assets/animations//celebration.json")}
 			/>

@@ -1,13 +1,5 @@
-import {
-	type AutoFreeHint,
-	type ContextualHint,
-	type DynamicHint,
-	type Hint,
-	type HintState,
-	HintType,
-	type StaticHint,
-	type UserPointsState,
-} from "../../types/hint";
+import { Hint, HintState, UserPointsState, ContextualHint, StaticHint, HintType, DynamicHint, AutoFreeHint } from "@quiz-app/shared";
+
 
 export const canUseHint = (
 	hint: Hint,

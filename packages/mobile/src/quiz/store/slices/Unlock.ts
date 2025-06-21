@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import { QuizUtils } from "../../domain/quiz";
-import type { Quiz, UnlockCondition } from "../../types";
 import type { QuizStore } from "../Store";
+import { Quiz, UnlockCondition } from "@quiz-app/shared";
 
 export interface UnlockSlice {
 	pendingUnlocks: {

@@ -1,8 +1,7 @@
-import type { Question } from "@/quiz/types";
 import { type PropsWithChildren, memo } from "react";
 import {
 	Animated,
-	Dimensions, // Importiere Dimensions
+	Dimensions,
 	KeyboardAvoidingView,
 	Platform,
 	StyleSheet,
@@ -11,6 +10,7 @@ import {
 import { ImageType, useImageDisplay } from "../../../hooks/useImageDisplay";
 import { useKeyboardHandling } from "../hooks/useKeyboardHandling";
 import { QuestionImage } from "./QuestionImage";
+import { Question } from "@quiz-app/shared";
 
 interface QuestionContentContainerProps extends PropsWithChildren {
 	question: Question;

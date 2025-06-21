@@ -1,5 +1,4 @@
-import type { QuestionBase } from "../../types";
-import type { PointTransaction, UserPointsState } from "../../types/hint";
+import { PointTransaction, QuestionBase, UserPointsState } from "@quiz-app/shared";
 
 export const calculatePointsForCorrectAnswer = (
 	question: QuestionBase,

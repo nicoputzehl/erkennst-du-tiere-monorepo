@@ -1,4 +1,4 @@
-import type { Quiz, UnlockCondition } from "@/quiz/types";
+import { Quiz, UnlockCondition } from "@quiz-app/shared";
 
 export type QuizCardActiveProps = {
 	quiz: Quiz;

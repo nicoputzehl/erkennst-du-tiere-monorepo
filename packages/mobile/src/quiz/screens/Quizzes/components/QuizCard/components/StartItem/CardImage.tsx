@@ -3,6 +3,7 @@ import { memo } from "react";
 import { styles } from "../../QuizCard.styles";
 import type { QuizImageProps } from "../../QuizCard.types";
 
+// TODO lokal ablegen
 const DEFAULT_TITLE_IMAGE = require("../../../../../../../../assets/images/test-title.jpg");
 const PLACEHOLDER_IMAGE = require("../../../../../../../../assets/images/placeholder.jpg");
 
