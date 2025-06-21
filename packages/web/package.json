@@ -1,0 +1,13 @@
+{
+  "name": "@quiz-app/web",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@quiz-app/shared": "workspace:*"
+  }
+}

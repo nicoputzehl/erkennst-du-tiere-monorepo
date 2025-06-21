@@ -1,0 +1,22 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "strict": true,
+    "paths": {
+      "@quiz-app/shared": ["../shared/src"],
+      "@quiz-app/shared/*": ["../shared/src/*"],
+      "@/*": ["./src/*"],
+      "@/quiz": ["./src/quiz/*"],
+      "@/animals": ["./src/animals/*"],
+      "@assets": ["./assets/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../shared/src/**/*",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}

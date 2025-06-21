@@ -1,0 +1,20 @@
+{
+  "name": "@quiz-app/root",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "mobile": "yarn workspace @quiz-app/mobile expo start",
+    "web": "yarn workspace @quiz-app/web dev",
+    "shared:build": "yarn workspace @quiz-app/shared build",
+    "dev": "yarn mobile",
+    "type-check": "yarn workspaces run type-check",
+    "lint": "yarn workspaces run lint"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3"
+  },
+  "packageManager": "yarn@4.9.2"
+}
