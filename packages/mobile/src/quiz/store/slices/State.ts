@@ -1,8 +1,5 @@
 import type { StateCreator } from "zustand";
-import { HintUtils } from "../../domain/hints";
-import { QuizUtils } from "../../domain/quiz";
-import { createQuizState } from "../../domain/quiz/factories";
-import { isCompleted } from "../../domain/quiz/statistics";
+import { QuizUtils, HintUtils } from "@quiz-app/shared";
 import type { QuizStore } from "../Store";
 import { QuizState, Quiz, ContextualHint } from "@quiz-app/shared";
 
@@ -56,7 +53,7 @@ export const createQuizStateSlice: StateCreator<
 			);
 			return null;
 		}
-		const newState = createQuizState(quiz, {
+		const newState = QuizUtils.createQuizState(quiz, {
 			initialUnlockedQuestions: config.initialUnlockedQuestions || 2,
 		});
 		set((state) => ({
@@ -77,7 +74,7 @@ export const createQuizStateSlice: StateCreator<
 		const quiz = quizzes[quizId];
 		const config = quizConfigs[quizId];
 		if (!quiz || !config) return null;
-		const newState = createQuizState(quiz, {
+		const newState = QuizUtils.createQuizState(quiz, {
 			initialUnlockedQuestions: config.initialUnlockedQuestions || 2,
 		});
 		set((state) => ({
@@ -180,7 +177,7 @@ export const createQuizStateSlice: StateCreator<
 		// TODO nur den aktuellen Quiz State mit geben?
 		// TODO checken ob schon die manipulierten States mitgegeben werden müssen
 		const isQuizUnlocked = QuizUtils.isQuizUnlocked(config, quizStates);
-		const completed = isCompleted(result.newState);
+		const completed = QuizUtils.isCompleted(result.newState);
 
 		const nextQuestionId = QuizUtils.getNextActiveQuestionId(result.newState);
 		// Show completion toast

@@ -1,11 +1,4 @@
-import {
-	createAutoFreeHint,
-	createContextualHint,
-	createCustomHint,
-	createFirstLetterHint,
-	createLetterCountHint,
-} from "@/quiz/domain/hints/factories";
-import { QuestionBase } from "@quiz-app/shared";
+import { QuestionBase, HintUtils } from "@quiz-app/shared";
 
 export const namibia: QuestionBase[] = [
 	{
@@ -21,26 +14,26 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/leopard_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(1),
-			createFirstLetterHint(1),
-			createCustomHint(
+			HintUtils.createLetterCountHint(1),
+			HintUtils.createFirstLetterHint(1),
+			HintUtils.createCustomHint(
 				1,
 				"Lebensraum",
 				"Dieses Tier ist ein hervorragender Kletterer.",
 				15,
 			),
-			createCustomHint(
+			HintUtils.createCustomHint(
 				1,
 				"Aussehen",
 				"Hat ein goldgelbes Fell mit schwarzen Rosetten.",
 				12,
 			),
-			createContextualHint(
+			HintUtils.createContextualHint(
 				1,
 				["jaguar"],
 				"Richtige Richtung! Aber lebt in Afrika, nicht Südamerika.",
 			),
-			createContextualHint(
+			HintUtils.createContextualHint(
 				1,
 				["gepard", "cheetah"],
 				"Auch gefleckt, aber diese Katze kann sehr gut klettern!",
@@ -48,17 +41,17 @@ export const namibia: QuestionBase[] = [
 					title: "Nicht ganz so schnell!",
 				}
 			),
-			createContextualHint(
+			HintUtils.createContextualHint(
 				1,
 				["löwe", "loewe", "lion"],
 				"Falsche Großkatze - das gesuchte Tier hat Flecken!",
 			),
-			createContextualHint(
+			HintUtils.createContextualHint(
 				1,
 				["tiger"],
 				"Falsche Großkatze - das gesuchte Tier lebt in Afrika!",
 			),
-			createAutoFreeHint(
+			HintUtils.createAutoFreeHint(
 				1,
 				"Diese gefleckte Großkatze ist für ihre Kletterfähigkeiten bekannt.",
 			),
@@ -78,9 +71,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/nilpferd_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(2),
-			createFirstLetterHint(2),
-			createAutoFreeHint(2, "Ich bin ein großes Säugetier, das viel Zeit im Wasser verbringt und dessen Name 'Pferd des Flusses' Flussbedeutet.", 7)
+			HintUtils.createLetterCountHint(2),
+			HintUtils.createFirstLetterHint(2),
+			HintUtils.createAutoFreeHint(2, "Ich bin ein großes Säugetier, das viel Zeit im Wasser verbringt und dessen Name 'Pferd des Flusses' Flussbedeutet.", 7)
 		],
 	},
 
@@ -97,9 +90,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/flamingo_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(3),
-			createFirstLetterHint(3),
-			createAutoFreeHint(2, "Ich bin ein Stelzvogel, bekannt für meine leuchtende Farbe und dass ich oft auf einem Bein stehe.", 4)
+			HintUtils.createLetterCountHint(3),
+			HintUtils.createFirstLetterHint(3),
+			HintUtils.createAutoFreeHint(2, "Ich bin ein Stelzvogel, bekannt für meine leuchtende Farbe und dass ich oft auf einem Bein stehe.", 4)
 		],
 	},
 	{
@@ -115,9 +108,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/loewe_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(4),
-			createFirstLetterHint(4),
-			createAutoFreeHint(4, "Man nennt mich auch den König der Tiere.")
+			HintUtils.createLetterCountHint(4),
+			HintUtils.createFirstLetterHint(4),
+			HintUtils.createAutoFreeHint(4, "Man nennt mich auch den König der Tiere.")
 		],
 	},
 	// TODO: evtl später wieder hinzufügen
@@ -147,9 +140,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/nashorn_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(6),
-			createFirstLetterHint(6),
-			createAutoFreeHint(6, "Den Namensgebenden Teil meines Gesichts kann man nicht sehen.")
+			HintUtils.createLetterCountHint(6),
+			HintUtils.createFirstLetterHint(6),
+			HintUtils.createAutoFreeHint(6, "Den Namensgebenden Teil meines Gesichts kann man nicht sehen.")
 		],
 	},
 	{
@@ -165,9 +158,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/zebra_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(7),
-			createFirstLetterHint(7),
-			createAutoFreeHint(6, "Ich bin mit Pferden verwandt.")
+			HintUtils.createLetterCountHint(7),
+			HintUtils.createFirstLetterHint(7),
+			HintUtils.createAutoFreeHint(6, "Ich bin mit Pferden verwandt.")
 		],
 	},
 	{
@@ -183,9 +176,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/strauss_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(8),
-			createFirstLetterHint(8),
-			createAutoFreeHint(8, "Steck mal nicht den Kopf in den Sand.")
+			HintUtils.createLetterCountHint(8),
+			HintUtils.createFirstLetterHint(8),
+			HintUtils.createAutoFreeHint(8, "Steck mal nicht den Kopf in den Sand.")
 		],
 	},
 	// {
@@ -214,9 +207,9 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/elefant_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(10),
-			createFirstLetterHint(10),
-			createAutoFreeHint(10, "Tööröö", 3)
+			HintUtils.createLetterCountHint(10),
+			HintUtils.createFirstLetterHint(10),
+			HintUtils.createAutoFreeHint(10, "Tööröö", 3)
 		],
 	},
 	// {
@@ -246,10 +239,10 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/kap-borstenhoernchen_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(12),
-			createFirstLetterHint(12),
-			createContextualHint(12, ["Erdmännchend"], "Die gesuchten Tieren bilden sogar manchmal WGs mit Erdmännchen.", { title: "Könnte man meinen" }),
-			createContextualHint(12, ["Eichhörnchen", "Streifenhörnchen", "Hörnchen"], "Hönrchen ist schonmal nicht schlecht.", { title: "Fast...." })
+			HintUtils.createLetterCountHint(12),
+			HintUtils.createFirstLetterHint(12),
+			HintUtils.createContextualHint(12, ["Erdmännchend"], "Die gesuchten Tieren bilden sogar manchmal WGs mit Erdmännchen.", { title: "Könnte man meinen" }),
+			HintUtils.createContextualHint(12, ["Eichhörnchen", "Streifenhörnchen", "Hörnchen"], "Hönrchen ist schonmal nicht schlecht.", { title: "Fast...." })
 		],
 	},
 	{
@@ -265,10 +258,10 @@ export const namibia: QuestionBase[] = [
 			unsolvedThumbnailUrl: require("./img/thumbnails/giraffe_unsolved.jpg"),
 		},
 		hints: [
-			createLetterCountHint(13),
-			createFirstLetterHint(13),
-			createAutoFreeHint(13, "Schwer zu erkennen. Aber versuch mal das Muster zu erkennen.", 3),
-			createAutoFreeHint(13, "Die Zunge des gesuchten Tieres kann 45-50 Zentimeter lang werden und ist oft bläulich-violett gefärbt", 6)
+			HintUtils.createLetterCountHint(13),
+			HintUtils.createFirstLetterHint(13),
+			HintUtils.createAutoFreeHint(13, "Schwer zu erkennen. Aber versuch mal das Muster zu erkennen.", 3),
+			HintUtils.createAutoFreeHint(13, "Die Zunge des gesuchten Tieres kann 45-50 Zentimeter lang werden und ist oft bläulich-violett gefärbt", 6)
 		],
 	},
 	{
@@ -285,9 +278,9 @@ export const namibia: QuestionBase[] = [
 		},
 
 		hints: [
-			createLetterCountHint(14),
-			createFirstLetterHint(14),
-			createAutoFreeHint(14, "Nicht Timon!", 3)
+			HintUtils.createLetterCountHint(14),
+			HintUtils.createFirstLetterHint(14),
+			HintUtils.createAutoFreeHint(14, "Nicht Timon!", 3)
 		],
 	},
 	{
@@ -304,10 +297,10 @@ export const namibia: QuestionBase[] = [
 		},
 
 		hints: [
-			createLetterCountHint(15),
-			createFirstLetterHint(15),
-			createAutoFreeHint(15, "Denk mal an die Farbe des Schnabels.", 4),
-			createAutoFreeHint(15, "Sein Name verrät schon einiges über sein markantestes Merkmal.", 8)
+			HintUtils.createLetterCountHint(15),
+			HintUtils.createFirstLetterHint(15),
+			HintUtils.createAutoFreeHint(15, "Denk mal an die Farbe des Schnabels.", 4),
+			HintUtils.createAutoFreeHint(15, "Sein Name verrät schon einiges über sein markantestes Merkmal.", 8)
 		],
 	},
 ];

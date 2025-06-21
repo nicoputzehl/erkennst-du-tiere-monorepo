@@ -1,5 +1,5 @@
 import type { StateCreator } from "zustand";
-import { QuizUtils } from "../../domain/quiz";
+import { QuizUtils } from "@quiz-app/shared";
 import type { QuizStore } from "../Store";
 import { Quiz, UnlockCondition } from "@quiz-app/shared";
 

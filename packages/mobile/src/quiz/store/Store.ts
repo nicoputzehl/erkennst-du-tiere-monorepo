@@ -5,10 +5,7 @@ import {
 	persist,
 	subscribeWithSelector,
 } from "zustand/middleware";
-import { QuizUtils } from "../domain/quiz";
-
-
-import { HintUtils } from "../domain/hints";
+import { QuizUtils, HintUtils } from "@quiz-app/shared";
 
 import { type HintSlice, createHintSlice } from "./slices/Hint";
 import { type QuizDataSlice, createQuizDataSlice } from "./slices/Data";

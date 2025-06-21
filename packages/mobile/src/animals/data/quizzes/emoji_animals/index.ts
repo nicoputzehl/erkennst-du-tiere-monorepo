@@ -1,5 +1,6 @@
-import { createAutoFreeHint, createContextualHint, createFirstLetterHint, createLetterCountHint } from "@/quiz/domain/hints/factories";
+
 import { QuestionBase } from "@quiz-app/shared";
+import { HintUtils } from "@quiz-app/shared";
 
 export const emojiAnimals: QuestionBase[] = [
 	{
@@ -13,9 +14,9 @@ export const emojiAnimals: QuestionBase[] = [
 		},
 		wikipediaName: "Stachelschweine",
 		hints: [
-			createLetterCountHint(1),
-			createFirstLetterHint(1),
-			createContextualHint(
+			HintUtils.createLetterCountHint(1),
+			HintUtils.createFirstLetterHint(1),
+			HintUtils.createContextualHint(
 				1,
 				["igel"],
 				"Richtung stimmt.", { title: "ja, aber nein." }
@@ -32,14 +33,14 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/kaiserpinguin.png"),
 		},
 		hints: [
-			createLetterCountHint(2),
-			createFirstLetterHint(2),
-			createContextualHint(
+			HintUtils.createLetterCountHint(2),
+			HintUtils.createFirstLetterHint(2),
+			HintUtils.createContextualHint(
 				2,
 				["pinguin"],
 				"Ich weiß, dass kannst du besser.", { title: "Ernsthaft?!" }
 			),
-			createContextualHint(
+			HintUtils.createContextualHint(
 				2,
 				["königspinguin", "königs-pinguin"],
 				"Guter Versuch! Aber denk mal nach: Der berühmte römische Herrscher Augustus. War der ein König?", { title: "Ganz kanpp..." }
@@ -57,8 +58,8 @@ export const emojiAnimals: QuestionBase[] = [
 		},
 		wikipediaName: "Klapperschlangen",
 		hints: [
-			createLetterCountHint(3),
-			createFirstLetterHint(3),
+			HintUtils.createLetterCountHint(3),
+			HintUtils.createFirstLetterHint(3),
 		]
 	},
 	{
@@ -82,14 +83,14 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/narwal.png"),
 		},
 		hints: [
-			createLetterCountHint(5),
-			createFirstLetterHint(5),
-			createContextualHint(
+			HintUtils.createLetterCountHint(5),
+			HintUtils.createFirstLetterHint(5),
+			HintUtils.createContextualHint(
 				1,
 				["igel"],
 				"Aber auch ein Säugetier", { title: "Leider nicht." }
 			),
-			createAutoFreeHint(5, "KEIN Fisch", 5, "Leider nicht.")
+			HintUtils.createAutoFreeHint(5, "KEIN Fisch", 5, "Leider nicht.")
 		]
 	},
 	{
@@ -103,10 +104,10 @@ export const emojiAnimals: QuestionBase[] = [
 		},
 		wikipediaName: "Zitteraale",
 		hints: [
-			createLetterCountHint(6),
-			createFirstLetterHint(6),
-			createAutoFreeHint(6, "EIN Fisch", 3, "Rate weiter."),
-			createAutoFreeHint(6, "Der Wurm soll an die Körperform erinnern.", 5, "Ok, noch ein Tipp.")
+			HintUtils.createLetterCountHint(6),
+			HintUtils.createFirstLetterHint(6),
+			HintUtils.createAutoFreeHint(6, "EIN Fisch", 3, "Rate weiter."),
+			HintUtils.createAutoFreeHint(6, "Der Wurm soll an die Körperform erinnern.", 5, "Ok, noch ein Tipp.")
 		]
 	},
 	{
@@ -121,10 +122,10 @@ export const emojiAnimals: QuestionBase[] = [
 		},
 		wikipediaName: "Rennmäuse",
 		hints: [
-			createLetterCountHint(7),
-			createFirstLetterHint(7),
-			createContextualHint(7, ["rennmaus"], "Aber WO rennt sie?", { title: "Gleich gelöst." }),
-			createContextualHint(7, ["maus"], "Aber WO und WIE?", { title: "Obvious." }),
+			HintUtils.createLetterCountHint(7),
+			HintUtils.createFirstLetterHint(7),
+			HintUtils.createContextualHint(7, ["rennmaus"], "Aber WO rennt sie?", { title: "Gleich gelöst." }),
+			HintUtils.createContextualHint(7, ["maus"], "Aber WO und WIE?", { title: "Obvious." }),
 
 		]
 	},
@@ -139,8 +140,8 @@ export const emojiAnimals: QuestionBase[] = [
 			thumbnailUrl: require("./img/thumbnails/okapi.png"),
 		},
 		hints: [
-			createLetterCountHint(8),
-			createFirstLetterHint(8),
+			HintUtils.createLetterCountHint(8),
+			HintUtils.createFirstLetterHint(8),
 		]
 	},
 	{

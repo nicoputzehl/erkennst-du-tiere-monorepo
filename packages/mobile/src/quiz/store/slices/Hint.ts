@@ -1,9 +1,9 @@
 import type { StateCreator } from "zustand";
-import { HintUtils } from "../../domain/hints";
+import {  HintUtils } from "@quiz-app/shared";
 
 import type { QuizStore } from "../Store";
 import { UseHintResult, HintTriggerResult, UsedHint, AutoFreeHint, PointTransaction, Hint, QuestionBase } from "@quiz-app/shared";
-import { isContextualHint } from "@/quiz/domain/hints/validation";
+
 
 export interface HintSlice {
 	applyHint: (
@@ -100,7 +100,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 
 		const transaction = HintUtils.createPointTransaction(
 			"spent",
-			!isContextualHint(hint) && hint.cost ? hint.cost : 0,
+			!HintUtils.isContextualHint(hint) && hint.cost ? hint.cost : 0,
 			`Hint verwendet: ${hint.title}`,
 			quizId,
 			questionId,
@@ -127,8 +127,8 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 			// GLOBALE Points Update
 			userPoints: {
 				...state.userPoints,
-				totalPoints: state.userPoints.totalPoints - (!isContextualHint(hint) && hint.cost ? hint.cost : 0),
-				spentPoints: state.userPoints.spentPoints + (!isContextualHint(hint) && hint.cost ? hint.cost : 0),
+				totalPoints: state.userPoints.totalPoints - (!HintUtils.isContextualHint(hint) && hint.cost ? hint.cost : 0),
+				spentPoints: state.userPoints.spentPoints + (!HintUtils.isContextualHint(hint) && hint.cost ? hint.cost : 0),
 				pointsHistory: [...state.userPoints.pointsHistory, transaction],
 			},
 		}));
@@ -136,7 +136,7 @@ export const createHintSlice: StateCreator<QuizStore, [], [], HintSlice> = (
 		return {
 			success: true,
 			hintContent: content,
-			pointsDeducted: !isContextualHint(hint) && hint.cost ? hint.cost : 0,
+			pointsDeducted: !HintUtils.isContextualHint(hint) && hint.cost ? hint.cost : 0,
 		};
 	},
 

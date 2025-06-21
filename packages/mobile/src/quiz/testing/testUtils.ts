@@ -1,5 +1,5 @@
 import { Question, QuestionBase, QuestionStatus, Quiz, QuizConfig, QuizState } from "@quiz-app/shared";
-import { createQuizConfig } from "../domain/quiz/factories";
+import { QuizUtils } from "@quiz-app/shared";
 
 /**
  * Erstellt Test-Frage - reine Factory-Funktion
@@ -56,7 +56,7 @@ export const createTestQuizConfig = (
 ): QuizConfig => {
 	const baseQuiz = createTestQuiz(overrides);
 
-	return createQuizConfig(baseQuiz, {
+	return QuizUtils.createQuizConfig(baseQuiz, {
 		initiallyLocked: overrides.initiallyLocked ?? false,
 		order: overrides.order ?? 1,
 		initialUnlockedQuestions: overrides.initialUnlockedQuestions ?? 2,

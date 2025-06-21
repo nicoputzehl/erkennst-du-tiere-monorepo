@@ -1,4 +1,4 @@
-import { QuizUtils } from "../quiz/domain/quiz/";
+import { QuizUtils } from "@quiz-app/shared";
 import { emojiAnimals, namibia, weirdAnimals } from "./data/quizzes";
 
 const namibiaQuiz = {

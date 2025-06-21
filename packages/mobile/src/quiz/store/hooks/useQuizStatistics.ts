@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { QuizUtils } from "../../domain/quiz";
+import { QuizUtils } from "@quiz-app/shared";
 import { useQuizStore } from "../Store";
 
 /**

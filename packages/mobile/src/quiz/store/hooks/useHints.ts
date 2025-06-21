@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useQuizStore } from "../Store";
-import { isAutoFreeHint, isContextualHint } from "../../domain/hints/validation";
+import { HintUtils } from "@quiz-app/shared";
 import { HintType, PurchasableHint, AutoFreeHint, HintTriggerResult } from "@quiz-app/shared";
 
 export const useHints = (quizId: string, questionId: number) => {
@@ -61,8 +61,8 @@ export const useHints = (quizId: string, questionId: number) => {
 	const { purchasableHints, autoTriggerHints } = useMemo(() => {
 		const purchasable = availableHints.filter(
 			(h) =>
-				!isAutoFreeHint(h.hint) &&
-				!isContextualHint(h.hint) &&
+				!HintUtils.isAutoFreeHint(h.hint) &&
+				!HintUtils.isContextualHint(h.hint) &&
 				h.canUse,
 		) as { hint: PurchasableHint; canUse: boolean; reason: string | undefined; }[]; // Explicitly cast to the desired type;
 		const autoTrigger = availableHints.filter(

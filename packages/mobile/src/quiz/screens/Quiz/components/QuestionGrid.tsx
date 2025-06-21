@@ -1,9 +1,8 @@
 import { QuestionListTile } from "@/quiz/screens/Quiz/components/QuestionListTile";
-import type { Question } from "@/quiz/types";
-import type React from "react";
 import { useCallback, useMemo } from "react";
 import { FlatList, type ListRenderItem } from "react-native";
 import { QUIZ_LAYOUT } from "../constants/constants";
+import { Question } from "@quiz-app/shared";
 
 interface QuestionGridProps {
 	questions: Question[];

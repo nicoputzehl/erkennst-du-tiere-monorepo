@@ -4,10 +4,10 @@ import { useColorScheme } from "@/common/hooks/useColorScheme";
 import { useThemeColor } from "@/common/hooks/useThemeColor";
 import { ImageType, useImageDisplay } from "@/quiz/hooks/useImageDisplay";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Question, QuestionStatus } from "@quiz-app/shared";
 import { Image } from "expo-image";
 import { memo, useCallback, useMemo } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { type Question, QuestionStatus } from "../../../types";
 
 interface QuestionListTileProps {
 	item: Question;
