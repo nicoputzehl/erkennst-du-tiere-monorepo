@@ -56,7 +56,9 @@ describe("String and Phonetic Utilities", () => {
 
 	describe("colognePhonetic (Main Function)", () => {
 		it("should return empty string for null, undefined or empty input", () => {
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(colognePhonetic(null as any)).toBe("");
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(colognePhonetic(undefined as any)).toBe("");
 			expect(colognePhonetic("")).toBe("");
 			expect(colognePhonetic("   ")).toBe("");
@@ -134,7 +136,9 @@ describe("String and Phonetic Utilities", () => {
 		});
 
 		it("should return empty string for null, undefined or empty input", () => {
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(preprocessWord(null as any)).toBe("");
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(preprocessWord(undefined as any)).toBe("");
 			expect(preprocessWord("")).toBe("");
 		});

@@ -1,5 +1,6 @@
-import { QuestionBase, HintState } from "@quiz-app/shared";
+
 import { HintUtils } from "..";
+import type { QuestionBase, HintState } from "../../../types";
 
 import { createContextualHint, createLetterCountHint } from "../factories";
 

@@ -1,7 +1,6 @@
-import { Hint } from "./hint";
-import { QuizImages } from "./image";
+import type { Hint } from "./hint";
+import type { QuizImages } from "./image";
 
-;
 
 export enum QuestionStatus {
 	INACTIVE = "inactive",

@@ -1,5 +1,5 @@
-import type { QuestionBase } from "@/quiz/types";
 import { HintUtils } from "..";
+import type { QuestionBase } from "../../../types";
 import {
 	createCustomHint,
 	createFirstLetterHint,

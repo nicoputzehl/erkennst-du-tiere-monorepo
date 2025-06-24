@@ -1,4 +1,5 @@
-import { QuestionBase, HintState, ContextualHint, AutoFreeHint, HintTriggerResult } from "@quiz-app/shared";
+
+import type { QuestionBase, HintState, ContextualHint, AutoFreeHint, HintTriggerResult } from "../../types";
 import { normalizeString } from "../quiz/utils/stringManipulation";
 import { isAutoFreeHint, isContextualHint } from "./validation";
 

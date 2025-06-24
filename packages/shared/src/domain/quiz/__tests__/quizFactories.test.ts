@@ -1,8 +1,9 @@
-import { UnlockCondition, QuestionStatus } from "@quiz-app/shared";
+
 import {
 	createTestQuestion,
 	createTestQuiz,
 } from "../../../testing/testUtils";
+import { type UnlockCondition, QuestionStatus } from "../../../types";
 import {
 	calculateInitialQuestionStatus,
 	createQuizConfig,

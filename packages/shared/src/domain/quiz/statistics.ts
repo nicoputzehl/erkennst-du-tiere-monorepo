@@ -1,4 +1,5 @@
-import { QuizState } from "@quiz-app/shared";
+import type {  QuizState } from "../../types";
+
 
 export function countTotalQuizzes(quizStates: { [id: string]: QuizState }) {
 	return Object.values(quizStates).length;

@@ -1,8 +1,9 @@
-import { QuestionStatus, Question } from "@quiz-app/shared";
+
 import {
 	createTestQuizQuestion,
 	quizStateBuilder,
 } from "../../../testing/testUtils";
+import { QuestionStatus, type Question } from "../../../types";
 import { isAnswerCorrect } from "../answerComparison";
 import { findNextInactiveQuestionIndex, calculateNewQuestionsAfterCorrectAnswer, calculateAnswerResult, sortQuestionsByIds, findNextUnsolvedQuestionForward, findNextUnsolvedQuestionBackward, findFirstUnsolvedQuestion, getNextActiveQuestionId } from "../progression";
 

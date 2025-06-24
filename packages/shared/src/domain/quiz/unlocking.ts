@@ -1,4 +1,5 @@
-import { UnlockCondition, QuizState, QuizConfig, isQuizPlaythroughCondition, isQuizProgressCondition, PlaythroughCondition, ProgressCondition } from "@quiz-app/shared";
+
+import { type UnlockCondition, type QuizState, isQuizPlaythroughCondition, isQuizProgressCondition, type PlaythroughCondition, type ProgressCondition, type QuizConfig } from "../../types";
 import { calculateCompletionPercentage, isCompleted } from "./statistics";
 
 export const checkUnlockCondition = (

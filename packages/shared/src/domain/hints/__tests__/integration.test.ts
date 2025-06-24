@@ -1,5 +1,6 @@
-import { QuestionBase, HintState, UserPointsState } from "@quiz-app/shared";
+
 import { HintUtils } from "..";
+import type { QuestionBase, HintState, UserPointsState } from "../../../types";
 import {
 	createAutoFreeHint,
 	createContextualHint,

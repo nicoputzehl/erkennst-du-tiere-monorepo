@@ -52,9 +52,13 @@ describe("isAnswerCorrect", () => {
 
 	describe("input validation", () => {
 		it("should return false for null/undefined inputs", () => {
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(isAnswerCorrect(null as any, "correct")).toBe(false);
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(isAnswerCorrect("user", null as any)).toBe(false);
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(isAnswerCorrect(undefined as any, "correct")).toBe(false);
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			expect(isAnswerCorrect("user", undefined as any)).toBe(false);
 		});
 

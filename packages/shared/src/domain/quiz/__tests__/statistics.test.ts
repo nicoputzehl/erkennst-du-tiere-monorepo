@@ -42,6 +42,7 @@ describe("Quiz Statistics and Progress Utilities", () => {
 				"quiz-B": createTestQuizState({
 					id: "quiz-B",
 					completedQuestions: 5,
+					// biome-ignore lint/suspicious/noExplicitAny: Egal
 					questions: Array(5).fill({}) as any,
 				}),
 			};

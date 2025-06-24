@@ -1,4 +1,5 @@
-import { HintType, QuestionBase, Hint } from "@quiz-app/shared";
+
+import { HintType, type QuestionBase, type Hint } from "../../types";
 import {
 	isAutoFreeHint,
 	isContextualHint,
@@ -35,14 +36,17 @@ export const generateHintContent = (
 		hintId: hint.id,
 		hintType: hint.type,
 		hasGenerator:
+			// biome-ignore lint/suspicious/noExplicitAny: is ok
 			"generator" in hint && typeof (hint as any).generator === "function",
 		questionAnswer: question.answer,
 	});
 
 	if (isDynamicHint(hint)) {
 		// Prüfe ob Generator-Funktion vorhanden ist
+		// biome-ignore lint/suspicious/noExplicitAny: is ok
 		if (typeof (hint as any).generator === "function") {
 			console.log("🔧 [generateHintContent] Using existing generator");
+			// biome-ignore lint/suspicious/noExplicitAny: is ok
 			return (hint as any).generator(question);
 		}
 		// Generator-Funktion wurde durch Serialisierung verloren - rekonstruiere sie

@@ -1,8 +1,9 @@
-import { QuizState, QuizConfig, PlaythroughCondition, ProgressCondition, UnlockCondition } from "@quiz-app/shared";
+
 import {
 	createTestQuizConfig,
 	createTestQuizState,
 } from "../../../testing/testUtils";
+import type { QuizState, QuizConfig, PlaythroughCondition, ProgressCondition, UnlockCondition } from "../../../types";
 import { canUnlockQuiz, checkUnlockCondition, getUnlockProgress, isQuizUnlocked } from "../unlocking";
 
 describe("Quiz Unlocking Utilities", () => {
@@ -11,16 +12,19 @@ describe("Quiz Unlocking Utilities", () => {
 		"quizA": createTestQuizState({
 			id: "quizA",
 			completedQuestions: 5,
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			questions: Array(5).fill({} as any), // Angenommen, 5 Fragen für ein abgeschlossenes Quiz
 		}),
 		"quizB": createTestQuizState({
 			id: "quizB",
 			completedQuestions: 3,
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			questions: Array(5).fill({} as any), // 3 von 5 Fragen abgeschlossen
 		}),
 		"quizC": createTestQuizState({
 			id: "quizC",
 			completedQuestions: 0,
+			// biome-ignore lint/suspicious/noExplicitAny: Egal
 			questions: Array(5).fill({} as any), // 0 von 5 Fragen abgeschlossen
 		}),
 	};
@@ -250,62 +254,62 @@ describe("Quiz Unlocking Utilities", () => {
 
 		it('should return false when playthrough condition is not met', () => {
 			const config = { ...lockedWithPlaythroughCondition };
-			const states = { ...quizStates, quizA: { ...quizStates.quizA ,completedQuestions: 0 } as QuizState };
+			const states = { ...quizStates, quizA: { ...quizStates.quizA, completedQuestions: 0 } as QuizState };
 			expect(isQuizUnlocked(config, states)).toBe(false);
 		});
 
 		it('should return true when progress condition is met', () => {
-		  expect(isQuizUnlocked(lockedWithProgressCondition, quizStates)).toBe(true);
+			expect(isQuizUnlocked(lockedWithProgressCondition, quizStates)).toBe(true);
 		});
 
 		it('should return false when progress condition is not met', () => {
-		  const config = { ...lockedWithProgressCondition, unlockCondition: { ...lockedWithProgressCondition.unlockCondition, requiredQuestionsSolved: 6 } } as QuizConfig;
-		  expect(isQuizUnlocked(config, quizStates)).toBe(false);
+			const config = { ...lockedWithProgressCondition, unlockCondition: { ...lockedWithProgressCondition.unlockCondition, requiredQuestionsSolved: 6 } } as QuizConfig;
+			expect(isQuizUnlocked(config, quizStates)).toBe(false);
 		});
 	});
 
 
 	describe('getUnlockProgress', () => {
-  it('should return full progress for unlocked quiz', () => {
-    const result = getUnlockProgress(unlockedConfig, quizStates);
-    expect(result.progress).toBe(100);
-    expect(result.isMet).toBe(true);
-    expect(result.condition).toBeNull();
-  });
+		it('should return full progress for unlocked quiz', () => {
+			const result = getUnlockProgress(unlockedConfig, quizStates);
+			expect(result.progress).toBe(100);
+			expect(result.isMet).toBe(true);
+			expect(result.condition).toBeNull();
+		});
 
-  it('should return correct progress for playthrough condition', () => {
-    const result = getUnlockProgress(lockedWithPlaythroughCondition, quizStates);
-    expect(result.progress).toBe(100);
-    expect(result.isMet).toBe(true);
-    expect(result.condition).toEqual(lockedWithPlaythroughCondition.unlockCondition);
-  });
+		it('should return correct progress for playthrough condition', () => {
+			const result = getUnlockProgress(lockedWithPlaythroughCondition, quizStates);
+			expect(result.progress).toBe(100);
+			expect(result.isMet).toBe(true);
+			expect(result.condition).toEqual(lockedWithPlaythroughCondition.unlockCondition);
+		});
 
-  it('should return correct progress for progress condition', () => {
-    const result = getUnlockProgress(lockedWithProgressCondition, quizStates);
-    expect(result.progress).toBe(100);
-    expect(result.isMet).toBe(true);
-    expect(result.condition).toEqual(lockedWithProgressCondition.unlockCondition);
-  });
+		it('should return correct progress for progress condition', () => {
+			const result = getUnlockProgress(lockedWithProgressCondition, quizStates);
+			expect(result.progress).toBe(100);
+			expect(result.isMet).toBe(true);
+			expect(result.condition).toEqual(lockedWithProgressCondition.unlockCondition);
+		});
 
-  it('should return correct progress percentage when condition not met', () => {
-    const config = {
-      ...lockedWithProgressCondition,
-      unlockCondition: {
-        ...lockedWithProgressCondition.unlockCondition,
-        requiredQuestionsSolved: 10,
-      },
-    } as QuizConfig;
-    const result = getUnlockProgress(config, quizStates);
-    expect(result.progress).toBe(50);
-    expect(result.isMet).toBe(false);
-  });
+		it('should return correct progress percentage when condition not met', () => {
+			const config = {
+				...lockedWithProgressCondition,
+				unlockCondition: {
+					...lockedWithProgressCondition.unlockCondition,
+					requiredQuestionsSolved: 10,
+				},
+			} as QuizConfig;
+			const result = getUnlockProgress(config, quizStates);
+			expect(result.progress).toBe(50);
+			expect(result.isMet).toBe(false);
+		});
 
-  it('should handle undefined config', () => {
-    const result = getUnlockProgress(undefined, quizStates);
-    expect(result.progress).toBe(100);
-    expect(result.isMet).toBe(true);
-    expect(result.condition).toBeNull();
-  });
-});
+		it('should handle undefined config', () => {
+			const result = getUnlockProgress(undefined, quizStates);
+			expect(result.progress).toBe(100);
+			expect(result.isMet).toBe(true);
+			expect(result.condition).toBeNull();
+		});
+	});
 
 });

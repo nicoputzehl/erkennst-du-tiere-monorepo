@@ -1,4 +1,5 @@
-import { Quiz, QuizConfig, PlaythroughCondition, ProgressCondition, QuestionStatus, QuizState, HintState, Question } from "@quiz-app/shared";
+import { type Quiz, type QuizConfig, type PlaythroughCondition, type ProgressCondition, QuestionStatus, type QuizState, type HintState, type Question } from "../../types";
+
 
 
 /**
@@ -125,6 +126,7 @@ export const createQuizState = (
 				id: hint.id,
 				type: hint.type,
 				hasGenerator:
+					// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 					"generator" in hint && typeof (hint as any).generator === "function",
 			})),
 		});
