@@ -1,38 +1,51 @@
+// packages/web/src/store/quizStore.ts
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { AppState } from '../types';
-import type { Question, QuizConfig } from '@quiz-app/shared';
+import {  HintUtils } from '@quiz-app/shared';
+import type { AppState, WebQuestion, WebQuizConfig } from '../types';
 
 
 interface QuizStore extends AppState {
   // Quiz Actions
-  addQuiz: (quiz: Omit<QuizConfig, 'id' | 'order'>) => void;
-  updateQuiz: (id: string, updates: Partial<QuizConfig>) => void;
+  addQuiz: (quiz: Omit<WebQuizConfig, 'id'>) => void;
+  updateQuiz: (id: string, updates: Partial<WebQuizConfig>) => void;
   deleteQuiz: (id: string) => void;
   duplicateQuiz: (id: string) => void;
-  reorderQuizzes: (quizzes: QuizConfig[]) => void;
+  reorderQuizzes: (quizzes: WebQuizConfig[]) => void;
   
   // Question Actions
-  addQuestion: (quizId: string, question: Omit<Question, 'id'>) => void;
-  updateQuestion: (quizId: string, questionId: number, updates: Partial<Question>) => void;
+  addQuestion: (quizId: string, question: Omit<WebQuestion, 'id'>) => void;
+  updateQuestion: (quizId: string, questionId: number, updates: Partial<WebQuestion>) => void;
   deleteQuestion: (quizId: string, questionId: number) => void;
+  duplicateQuestion: (quizId: string, questionId: number) => void;
   
   // App Actions
   setSelectedQuiz: (quizId: string | null) => void;
+  toggleDarkMode: () => void;
 
   // Utility Functions
-  getQuizById: (id: string) => QuizConfig | undefined;
+  getQuizById: (id: string) => WebQuizConfig | undefined;
   getNextQuestionId: (quizId: string) => number;
   generateQuizId: (title: string) => string;
 }
 
+// Utility function to generate clean IDs
 const generateId = (title: string): string => {
   return title
     .toLowerCase()
+    .normalize('NFD') // Decompose characters into base form and combining characters
+    // biome-ignore lint/suspicious/noMisleadingCharacterClass: <explanation>
+    .replace(/[\u0300-\u036f]/gu, '') // Remove combining characters (accents)
     .replace(/[^a-z0-9]/g, '_')
     .replace(/_+/g, '_')
     .replace(/^_|_$/g, '');
 };
+
+// Generate automatic hints for questions
+const generateAutomaticHints = (questionId: number) => [
+  HintUtils.createLetterCountHint(questionId),
+  HintUtils.createFirstLetterHint(questionId)
+];
 
 export const useQuizStore = create<QuizStore>()(
   persist(
@@ -55,14 +68,19 @@ export const useQuizStore = create<QuizStore>()(
           counter++;
         }
 
-        const newQuiz: QuizConfig = {
+        const newQuiz: WebQuizConfig = {
           ...quizData,
           id: uniqueId,
-          order: quizzes.length,
-          questions: quizData.questions || []
+          order: quizData.order ?? quizzes.length + 1,
+          questions: quizData.questions || [],
+          initiallyLocked: quizData.initiallyLocked ?? false,
+          initialUnlockedQuestions: quizData.initialUnlockedQuestions ?? 2
         };
 
-        set({ quizzes: [...quizzes, newQuiz] });
+        set({ 
+          quizzes: [...quizzes, newQuiz],
+          selectedQuizId: uniqueId // Auto-select new quiz
+        });
       },
 
       updateQuiz: (id, updates) => {
@@ -84,11 +102,16 @@ export const useQuizStore = create<QuizStore>()(
         if (!quiz) return;
 
         const quizzes = get().quizzes;
-        const duplicatedQuiz: QuizConfig = {
+        const duplicatedQuiz: WebQuizConfig = {
           ...quiz,
           id: `${quiz.id}_copy`,
           title: `${quiz.title} (Kopie)`,
-          order: quizzes.length
+          order: quizzes.length + 1,
+          questions: quiz.questions.map(q => ({
+            ...q,
+            id: get().getNextQuestionId(`${quiz.id}_copy`), // Generate new IDs for questions
+            hints: q.hints ? [...q.hints] : undefined // Deep copy hints
+          }))
         };
 
         // Ensure unique ID
@@ -106,7 +129,7 @@ export const useQuizStore = create<QuizStore>()(
       reorderQuizzes: (reorderedQuizzes) => {
         const quizzesWithOrder = reorderedQuizzes.map((quiz, index) => ({
           ...quiz,
-          order: index
+          order: index + 1
         }));
         set({ quizzes: quizzesWithOrder });
       },
@@ -114,10 +137,18 @@ export const useQuizStore = create<QuizStore>()(
       // Question Actions
       addQuestion: (quizId, questionData) => {
         const nextId = get().getNextQuestionId(quizId);
-        const newQuestion: Question = {
+        
+        // Generate automatic hints for the question
+        const automaticHints = generateAutomaticHints(nextId);
+        
+        const newQuestion: WebQuestion = {
           ...questionData,
           id: nextId,
-          images: questionData.images || { imageUrl: '' }
+          images: questionData.images || { imageUrl: '' },
+          hints: [
+            ...automaticHints,
+            ...(questionData.hints || [])
+          ]
         };
 
         set({
@@ -157,11 +188,45 @@ export const useQuizStore = create<QuizStore>()(
         });
       },
 
+      duplicateQuestion: (quizId, questionId) => {
+        const quiz = get().getQuizById(quizId);
+        if (!quiz) return;
+
+        const question = quiz.questions.find(q => q.id === questionId);
+        if (!question) return;
+
+        const nextId = get().getNextQuestionId(quizId);
+        const automaticHints = generateAutomaticHints(nextId);
+        
+        const duplicatedQuestion: WebQuestion = {
+          ...question,
+          id: nextId,
+          title: question.title ? `${question.title} (Kopie)` : undefined,
+          hints: [
+            ...automaticHints,
+            ...(question.hints?.filter(h => 
+              h.type !== 'letter_count' && h.type !== 'first_letter'
+            ) || [])
+          ]
+        };
+
+        set({
+          quizzes: get().quizzes.map(quiz =>
+            quiz.id === quizId
+              ? { ...quiz, questions: [...quiz.questions, duplicatedQuestion] }
+              : quiz
+          )
+        });
+      },
+
       // App Actions
       setSelectedQuiz: (quizId) => {
         set({ selectedQuizId: quizId });
       },
 
+      toggleDarkMode: () => {
+        set({ darkMode: !get().darkMode });
+      },
 
       // Utility Functions
       getQuizById: (id) => {
@@ -179,8 +244,20 @@ export const useQuizStore = create<QuizStore>()(
       }
     }),
     {
-      name: 'quiz-editor-storage',
-      version: 1
+      name: 'quiz-editor-storage-v2',
+      version: 2,
+      // Migration function for version updates
+
+            migrate: (persistedState: any, version: number) => {
+        if (version < 2) {
+          // Migration logic for old data if needed
+          return {
+            ...persistedState,
+            darkMode: false
+          };
+        }
+        return persistedState;
+      }
     }
   )
 );
