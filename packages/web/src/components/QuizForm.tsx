@@ -1,239 +1,283 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { X } from 'lucide-react';
-import { useQuizStore } from '../store/quizStore';
-
-import { ImageUpload } from './ImageUpload';
-
+import { useState, useEffect } from "react";
+import { useQuizValidation, type QuizValidationErrors } from "../hooks/useQuizValidation";
+import { useQuizStore } from "../store/quizStore";
+import type { WebQuizConfig } from "../types";
 
 interface QuizFormProps {
-  quizId?: string | null;
-  onClose: () => void;
+  quiz?: WebQuizConfig;
+  onSave?: (quiz: WebQuizConfig) => void;
+  onCancel?: () => void;
 }
 
-interface FormData {
-  title: string;
-  initiallyLocked: boolean;
-  initialUnlockedQuestions: number;
-  unlockCondition?: {
-    type: 'playthrough' | 'progress';
-    requiredQuizId: string;
-    requiredQuestionsSolved?: number;
-    description: string;
-  };
-}
-
-export const QuizForm: React.FC<QuizFormProps> = ({ quizId, onClose }) => {
-  const {
-    quizzes,
-    addQuiz,
-    updateQuiz,
-    getQuizById,
-
-  } = useQuizStore();
-
-
-  const isEditing = Boolean(quizId);
-  const existingQuiz = quizId ? getQuizById(quizId) : null;
-
-  // Title image state
-  const [titleImage, setTitleImage] = useState<File | string | null>(
-    existingQuiz?.titleImage || null
-  );
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors }
-  } = useForm<FormData>({
-    defaultValues: {
-      title: existingQuiz?.title || '',
-      initiallyLocked: existingQuiz?.initiallyLocked || false,
-      initialUnlockedQuestions: existingQuiz?.initialUnlockedQuestions || 1,
-      unlockCondition: existingQuiz?.unlockCondition
-    }
+export const QuizForm: React.FC<QuizFormProps> = ({ quiz, onSave, onCancel }) => {
+  const { addQuiz, updateQuiz } = useQuizStore();
+  const { validateQuizForm, isQuizValid, generateAutomaticHints } = useQuizValidation();
+  
+  const [formData, setFormData] = useState<Partial<WebQuizConfig>>({
+    title: quiz?.title || '',
+    order: quiz?.order || 1,
+    initiallyLocked: quiz?.initiallyLocked || false,
+    initialUnlockedQuestions: quiz?.initialUnlockedQuestions || 2,
+    questions: quiz?.questions || [],
+    titleImage: quiz?.titleImage || undefined,
   });
 
-  const watchInitiallyLocked = watch('initiallyLocked');
-  const availableQuizzes = quizzes.filter(q => q.id !== quizId);
+  const [errors, setErrors] = useState<QuizValidationErrors>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof QuizValidationErrors, boolean>>>({});
 
+  // Real-time validation
   useEffect(() => {
-    if (existingQuiz) {
-      reset({
-        title: existingQuiz.title,
-        initiallyLocked: existingQuiz.initiallyLocked,
-        initialUnlockedQuestions: existingQuiz.initialUnlockedQuestions,
-        unlockCondition: existingQuiz.unlockCondition
-      });
-      setTitleImage(existingQuiz.titleImage || null);
-    }
-  }, [existingQuiz, reset]);
+    const validationErrors = validateQuizForm(formData);
+    setErrors(validationErrors);
+  }, [formData, validateQuizForm]);
 
-  const onSubmit = (data: FormData) => {
-    const quizData = {
-      title: data.title,
-      titleImage: titleImage || undefined,
-      initiallyLocked: data.initiallyLocked,
-      initialUnlockedQuestions: data.initialUnlockedQuestions,
-      unlockCondition: data.unlockCondition
-    };
-
-    if (isEditing && quizId) {
-      updateQuiz(quizId, quizData);
-    } else {
-      addQuiz({
-        ...quizData,
-        questions: []
-      });
-    }
-    onClose();
+  const handleInputChange = (field: keyof WebQuizConfig, value: string | number | boolean | string[] | undefined) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    setTouched(prev => ({ ...prev, [field]: true }));
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Mark all fields as touched
+    const allFields: (keyof QuizValidationErrors)[] = ['title', 'order', 'initialUnlockedQuestions'];
+    setTouched(Object.fromEntries(allFields.map(field => [field, true])));
+
+    if (!isQuizValid(formData)) {
+      return;
+    }
+
+    const quizData = formData as Omit<WebQuizConfig, 'id'>;
+
+    // Add automatic hints to all questions using shared domain logic
+    if (quizData.questions && quizData.questions.length > 0) {
+      quizData.questions = quizData.questions.map(question => ({
+        ...question,
+        hints: [
+          ...generateAutomaticHints(question.id),
+          ...(question.hints || [])
+        ]
+      }));
+    }
+
+    if (quiz?.id) {
+      // Update existing quiz
+      updateQuiz(quiz.id, quizData);
+      onSave?.(quiz);
+    } else {
+      // Create new quiz
+      addQuiz(quizData);
+      onSave?.(formData as WebQuizConfig);
+    }
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64 = e.target?.result as string;
+        handleInputChange('titleImage', base64);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
+  };
+
+  const showError = (field: keyof QuizValidationErrors) => touched[field] && errors[field];
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {isEditing ? 'Quiz bearbeiten' : 'Neues Quiz erstellen'}
-          </h2>
-          <button
-            type='button'
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-          >
-            <X size={20} />
-          </button>
+    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+        {quiz ? 'Quiz bearbeiten' : 'Neues Quiz erstellen'}
+      </h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Title (required field from Quiz interface) */}
+        <div>
+          <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Titel *
+          </p>
+          <input
+            type="text"
+            value={formData.title || ''}
+            onChange={(e) => handleInputChange('title', e.target.value)}
+            onBlur={() => setTouched(prev => ({ ...prev, title: true }))}
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+              showError('title') ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Z.B. Tiere Namibias"
+          />
+          {showError('title') && (
+            <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.title}</p>
+          )}
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-          <div>
-            <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Quiz-Titel *
-            </p>
-            <input
-              {...register('title', { required: 'Titel ist erforderlich' })}
-              type="text"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              placeholder="Quiz-Titel eingeben"
-            />
-            {errors.title && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                {errors.title.message}
-              </p>
-            )}
+        {/* Title Image Upload (titleImage from Quiz interface) */}
+        <div>
+          <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Titelbild
+          </p>
+          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500">
+            <div className="space-y-1 text-center">
+              {formData.titleImage ? (
+                <div className="relative">
+                  <img
+                    src={formData.titleImage}
+                    alt="Quiz Titelbild"
+                    className="mx-auto h-32 w-32 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('titleImage', undefined)}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full h-6 w-6 flex items-center justify-center text-xs hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                  >
+                    <title>Hochladen</title>
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <div className="flex text-sm text-gray-600 dark:text-gray-400">
+                    <div className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                      <span>Datei hochladen</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(file);
+                        }}
+                        className="sr-only"
+                      />
+                    </div>
+                    <p className="pl-1">oder ziehen und ablegen</p>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    PNG, JPG, GIF bis 10MB
+                  </p>
+                </>
+              )}
+            </div>
           </div>
+        </div>
 
+        {/* Order and Settings Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Order (from QuizConfig) */}
           <div>
             <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Anfangs freigeschaltete Fragen
+              Reihenfolge
             </p>
             <input
-              {...register('initialUnlockedQuestions', {
-                required: 'Anzahl ist erforderlich',
-                min: { value: 1, message: 'Mindestens 1 Frage muss freigeschaltet sein' }
-              })}
               type="number"
               min="1"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              value={formData.order || 1}
+              onChange={(e) => handleInputChange('order', Number.parseInt(e.target.value))}
+              onBlur={() => setTouched(prev => ({ ...prev, order: true }))}
+              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                showError('order') ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
-            {errors.initialUnlockedQuestions && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                {errors.initialUnlockedQuestions.message}
-              </p>
+            {showError('order') && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.order}</p>
             )}
           </div>
 
-          <ImageUpload
-            label="Quiz-Titelbild (optional)"
-            currentImage={titleImage || undefined}
-            onImageChange={(file) => setTitleImage(file)}
-            placeholder="Titelbild für das Quiz"
-            maxSize={5}
-          />
+          {/* initialUnlockedQuestions (from QuizConfig) */}
+          <div>
+            <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Initial freigeschaltete Fragen
+            </p>
+            <input
+              type="number"
+              min="1"
+              value={formData.initialUnlockedQuestions || 2}
+              onChange={(e) => handleInputChange('initialUnlockedQuestions', Number.parseInt(e.target.value))}
+              onBlur={() => setTouched(prev => ({ ...prev, initialUnlockedQuestions: true }))}
+              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
+                showError('initialUnlockedQuestions') ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {showError('initialUnlockedQuestions') && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.initialUnlockedQuestions}</p>
+            )}
+          </div>
+        </div>
 
+        {/* initiallyLocked Checkbox (from QuizConfig) */}
+        <div>
           <div className="flex items-center">
             <input
-              {...register('initiallyLocked')}
               type="checkbox"
-              id="initiallyLocked"
-              className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+              checked={formData.initiallyLocked || false}
+              onChange={(e) => handleInputChange('initiallyLocked', e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:border-gray-600 dark:bg-gray-700"
             />
-            <label htmlFor="initiallyLocked" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-              Quiz ist anfangs gesperrt
-            </label>
+            <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+              Quiz initial gesperrt (muss erst freigeschaltet werden)
+            </span>
           </div>
+        </div>
 
-          {watchInitiallyLocked && (
-            <div className="space-y-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-md">
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Freischaltbedingungen
-              </h3>
-
-              <div>
-                <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Freischaltungstyp
-                </p>
-                <select
-                  {...register('unlockCondition.type')}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="">Typ wählen</option>
-                  <option value="playthrough">Komplettes Quiz absolvieren</option>
-                  <option value="progress">Bestimmte Anzahl Fragen lösen</option>
-                </select>
-              </div>
-
-              <div>
-                <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Benötigtes Quiz
-                </p>
-                <select
-                  {...register('unlockCondition.requiredQuizId')}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="">Quiz wählen</option>
-                  {availableQuizzes.map(quiz => (
-                    <option key={quiz.id} value={quiz.id}>
-                      {quiz.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <p className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Beschreibung
-                </p>
-                <input
-                  {...register('unlockCondition.description')}
-                  type="text"
-                  placeholder="z.B. 'Löse erst das Tier-Quiz'"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-            </div>
+        {/* Questions Summary (questions from Quiz interface) */}
+        <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
+          <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Fragen ({formData.questions?.length || 0})
+          </h3>
+          {formData.questions && formData.questions.length > 0 ? (
+            <ul className="space-y-1">
+              {formData.questions.slice(0, 3).map((question, index) => (
+                <li key={question.id} className="text-sm text-gray-600 dark:text-gray-400">
+                  {index + 1}. {question.answer?.substring(0, 50)}...
+                </li>
+              ))}
+              {formData.questions.length > 3 && (
+                <li className="text-sm text-gray-500 dark:text-gray-500">
+                  ... und {formData.questions.length - 3} weitere
+                </li>
+              )}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-500 dark:text-gray-500">
+              Noch keine Fragen hinzugefügt. Fragen können nach dem Speichern hinzugefügt werden.
+            </p>
           )}
+        </div>
 
-          <div className="flex justify-end space-x-3 pt-4">
+        {/* Form Actions */}
+        <div className="flex justify-end space-x-4">
+          {onCancel && (
             <button
               type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors"
+              onClick={onCancel}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-gray-300 dark:border-gray-500 dark:hover:bg-gray-700"
             >
               Abbrechen
             </button>
-            <button
-
-              type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors"
-            >
-              {isEditing ? 'Aktualisieren' : 'Erstellen'}
-            </button>
-          </div>
-        </form>
-      </div>
+          )}
+          <button
+            type="submit"
+            disabled={!isQuizValid(formData)}
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-600"
+          >
+            {quiz ? 'Quiz aktualisieren' : 'Quiz erstellen'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

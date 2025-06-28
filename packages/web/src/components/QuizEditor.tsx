@@ -4,10 +4,11 @@ import { Plus, Settings, HelpCircle } from 'lucide-react';
 
 import { QuestionList } from './QuestionList';
 import { QuestionForm } from './QuestionForm';
-import type { QuizConfig } from '@quiz-app/shared';
+import type { WebQuizConfig } from '../types';
+
 
 interface QuizEditorProps {
-  quiz: QuizConfig;
+  quiz: WebQuizConfig;
 }
 
 export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz }) => {
@@ -56,9 +57,9 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz }) => {
               Letter Count und First Letter Hints werden automatisch generiert
             </div>
             <button
-            type='button'
+              type='button'
               onClick={handleAddQuestion}
-              className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 text-white rounded-md hover:bg-blue-700 transition-colors bg-blue-50"
             >
               <Plus size={16} />
               <span>Neue Frage</span>
@@ -88,17 +89,17 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ quiz }) => {
               Erstellen Sie die erste Frage für dieses Quiz
             </p>
             <button
-            type='button'
+              type='button'
               onClick={handleAddQuestion}
-              className="inline-flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+              className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
               <Plus size={16} />
               <span>Erste Frage erstellen</span>
             </button>
           </div>
         ) : (
-          <QuestionList 
-            quiz={quiz} 
+          <QuestionList
+            quiz={quiz}
             onEditQuestion={handleEditQuestion}
           />
         )}

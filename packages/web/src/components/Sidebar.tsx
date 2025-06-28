@@ -55,7 +55,7 @@ export const Sidebar: React.FC = () => {
           <button
           type='button'
             onClick={handleNewQuiz}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors"
+            className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <Plus size={16} />
             <span>Neues Quiz</span>
@@ -75,7 +75,7 @@ export const Sidebar: React.FC = () => {
                 onClick={() => setSelectedQuiz(quiz.id)}
                 className={`group p-3 rounded-lg cursor-pointer transition-colors ${
                   selectedQuizId === quiz.id
-                    ? 'bg-primary-50 dark:bg-primary-900/20 border-l-4 border-primary-500'
+                    ? 'bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500'
                     : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >

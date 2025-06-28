@@ -135,7 +135,7 @@ type='button'
             <input
               {...register('answer', { required: 'Antwort ist erforderlich' })}
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Die richtige Antwort eingeben"
             />
             {errors.answer && (
@@ -152,7 +152,7 @@ type='button'
             <input
               {...register('title')}
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Titel für die Frage"
             />
           </div>
@@ -164,7 +164,7 @@ type='button'
             <input
               {...register('alternativeAnswers')}
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Alternative Antworten (mit Komma getrennt)"
             />
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
@@ -179,7 +179,7 @@ type='button'
             <textarea
               {...register('funFact')}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Interessante Fakten zur Antwort"
             />
           </div>
@@ -191,7 +191,7 @@ type='button'
             <input
               {...register('wikipediaName')}
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               placeholder="Name des Wikipedia-Artikels"
             />
           </div>
@@ -261,7 +261,7 @@ type='button'
             <button
 
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-primary-700 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-blue-700 transition-colors"
             >
               {isEditing ? 'Aktualisieren' : 'Erstellen'}
             </button>

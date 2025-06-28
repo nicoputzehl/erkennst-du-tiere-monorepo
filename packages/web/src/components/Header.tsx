@@ -54,7 +54,7 @@ export const Header: React.FC = () => {
         type='button'
           onClick={handleExport}
           disabled={isExporting || quizzes.length === 0}
-          className="flex items-center space-x-2 px-3 py-2 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center space-x-2 px-3 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Download size={16} />
           <span>{isExporting ? 'Exportiere...' : 'Exportieren'}</span>

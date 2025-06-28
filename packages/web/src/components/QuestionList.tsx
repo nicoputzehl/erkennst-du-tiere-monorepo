@@ -2,10 +2,11 @@ import type React from 'react';
 import { Edit3, Trash2, Copy, Image } from 'lucide-react';
 
 import { useQuizStore } from '../store/quizStore';
-import type { QuizConfig } from '@quiz-app/shared';
+
+import type { WebQuizConfig } from '../types';
 
 interface QuestionListProps {
-  quiz: QuizConfig;
+  quiz: WebQuizConfig;
   onEditQuestion: (questionId: number) => void;
 }
 
@@ -39,7 +40,7 @@ export const QuestionList: React.FC<QuestionListProps> = ({ quiz, onEditQuestion
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-3">
-                <span className="inline-flex items-center justify-center w-8 h-8 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full text-sm font-medium">
+                <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">
                   {index + 1}
                 </span>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white">
